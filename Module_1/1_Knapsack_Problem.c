@@ -1,81 +1,83 @@
 #include<stdio.h>
 
-void knapsack(int n , float weight[] , float profit [] , float capacity )
+void knapsack(int num , float weight[] , float profit[] , float capacity)
 {
-    float x[20] , tp = 0; //tp - maximum profit
+    float x[20] , tp = 0; //total profit
     int i , j , u;
     u = capacity;
 
-    for( i = 0 ; i < n ; i++)
-    {
-        x[i] = 0.0; // resultant vector
-    }
+    for( i = 0 ; i < num ; i ++)
+        x[i] = 0.0;
 
-    for( i = 0 ; i< n ; i++)
+    for(i = 0 ; i< num ; i++)
     {
-        if(weight[i] >u)
+        if(weight[i]>u)
             break;
         else
         {
             x[i] = 1.0;
-            tp = tp+ profit[i]; 
-            u = u- weight[i];  
+            tp = tp+profit[i];
+            u = u-weight[i];
         }
     }
-
-    if(i<n)
+    if(i <num)
     {
         x[i] = u/weight[i];
     }
 
-    tp = tp+(x[i]*profit[i]);
+    tp = tp +(x[i]*profit[i]);
 
-
-    printf("\nThe result vector is");
-
-    for( i = 0 ; i < n ;i++)
+    printf("The result vector is ");
+    for( i  = 0 ; i < num ; i++)
     {
-        printf("%f \t",x[i]);
+        printf("%f\t",x[i]);
     }
 
-    printf("\nMaximum profit is :  %f",tp);
-    
+    printf("Maximum profit is %f",tp);
 }
 
 int main()
 {
     float weight[20] , profit[20] , capacity;
-    int num, i , j;
-    float ratio[20] , temp;
+    int num , i , j;
+    float ratio[20],temp;
 
-    printf("\nEnter number of objects");
+    printf("Enter the number of objects\n");
     scanf("%d",&num);
 
-    printf("\nEnter the weights and profits of each object");
-    for( i = 0 ; i<num ; i++)
+    printf("Enter weights of the objects");
+    for( i = 0 ; i < num ; i++)
     {
-        scanf("%f %f" , &weight[i] , &profit[i]);
+        scanf("%f",&weight[i]);
     }
-
-    printf("\nEnter the capacity of knapsack:");
-    scanf("%f",&capacity);
-
-    for( i=0;i<num ; i++)
+    
+    printf("Enter the profits of the objects");
+    for(i = 0 ; i < num ; i++)
+    {
+        scanf("%f",&profit[i]);
+    }
+    
+    for( i = 0; i < num ; i++)
     {
         ratio[i] = profit[i]/weight[i];
     }
 
+    printf("Enter the capacity of knapsack");
+    scanf("%f",&capacity);
+
+    //ARRANGING IN DESCENDING ORDER
+
     for( i = 0 ; i < num ; i++)
     {
-        for ( j = i+1 ; j <num ;j++)
+        for( j = i+1 ; j < num ;j++)
         {
-            if(ratio[i]<ratio[j])
+            if(ratio[i] <ratio[j])
             {
                 temp = ratio[j];
-                ratio[j] = ratio[i];
+                ratio[j]  =ratio[i];
                 ratio[i] = temp;
 
-                temp = weight[j];
+                temp= weight[j];
                 weight[j] = weight[i];
                 weight[i] = temp;
 
@@ -83,11 +85,8 @@ int main()
                 profit[j] = profit[i];
                 profit[i] = temp;
             }
-
         }
     }
-
-    knapsack(num,weight,profit,capacity);
+    knapsack(num, weight , profit , capacity);
     return 0;
-
 }
